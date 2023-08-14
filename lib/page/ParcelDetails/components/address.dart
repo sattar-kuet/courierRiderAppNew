@@ -15,6 +15,7 @@ class Address extends StatelessWidget {
   });
   final ParcelDetailsProvider actionValue;
   final bool isCustomer;
+  
 
   @override
   Widget build(BuildContext context) {
