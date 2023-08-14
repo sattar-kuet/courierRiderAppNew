@@ -12,12 +12,12 @@ class ParcelDetailsProvider extends ChangeNotifier {
     _isLoading = true;
     notifyListeners();
 
-    await ParcelDetailsMethod.parcelDetailsMethod(id).then((value) {
+    ParcelDetailsModel parcel =
+        await ParcelDetailsMethod.parcelDetailsMethod(id);
+    print(parcel);
 
-      _parcelDetails = value;
-      _isLoading = false;
-      notifyListeners();
-      
-    });
+    _parcelDetails = parcel;
+    _isLoading = false;
+    notifyListeners();
   }
 }

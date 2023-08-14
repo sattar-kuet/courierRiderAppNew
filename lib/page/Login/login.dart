@@ -45,8 +45,7 @@ class LoginWithOtpView extends StatelessWidget {
                             ),
                         children: <TextSpan>[
                           TextSpan(
-                            text: 'দয়া করে এই ফোন নাম্বারটি চেক করুন ' +
-                                routerData.newPassword.toString(),
+                            text: 'দয়া করে এই ফোন নাম্বারটি চেক করুন',
                             style:
                                 Theme.of(context).textTheme.bodyLarge!.copyWith(
                                       fontSize: 15.sp,

@@ -22,12 +22,13 @@ class DeliveryDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => ParcelActionDialogProvider(),
+      create: (context) =>
+          ParcelActionDialogProvider()..initialization(taka.toString()),
       child: Consumer<ParcelActionDialogProvider>(
           builder: (context, stateAction, __) {
         return Scaffold(
             appBar: AppBar(
-              title: const Text("Parcel Deliverd"),
+              title: const Text("Parcel Delivered"),
               backgroundColor: Colors.green,
             ),
             body: SafeArea(
@@ -115,9 +116,10 @@ class DeliveryDialog extends StatelessWidget {
                                   listen: false,
                                 ).deliveryOnChangeAction();
                               },
-                              enable: stateAction.radiogroupValue == 0
-                                  ? false
-                                  : true,
+                              enable: true,
+                              // enable: stateAction.radiogroupValue == 0
+                              //     ? false
+                              //     : true,
                             ),
                             SizedBox(
                               height: 30.sp,

@@ -9,8 +9,11 @@ class ParcelActionDialogProvider extends ChangeNotifier {
   TextEditingController noteController = TextEditingController();
   TextEditingController cashCollectionController = TextEditingController();
 
-  String _dateTime = "";
-  String get dateTime => _dateTime;
+  String _date = "";
+  String get date => _date;
+
+  String _time = "";
+  String get time => _time;
 
   bool _btnEnable = false;
   bool get btnEnable => _btnEnable;
@@ -18,11 +21,18 @@ class ParcelActionDialogProvider extends ChangeNotifier {
   bool _isLoading = false;
   bool get isLoading => _isLoading;
 
-  bool _isVerify = false;
+  // bool _isVerify = false; TODO: if you want to send code to merchant to verify  set it as false
+  bool _isVerify = true;
   bool get isVerify => _isVerify;
 
   String _otp = "";
   String get otp => _otp;
+
+  void initialization(String taka) {
+    cashCollectionController = TextEditingController(text: taka);
+    notifyListeners();
+    _btnEnable = true;
+  }
 
   void redioOnChange(int value) {
     _rediogroupValue = value;
@@ -94,7 +104,9 @@ class ParcelActionDialogProvider extends ChangeNotifier {
   }
 
   void dateTimeOnChangeAction() {
-    if (noteController.value.text.isNotEmpty && _dateTime.isNotEmpty) {
+    if (noteController.value.text.isNotEmpty &&
+        _date.isNotEmpty &&
+        _time.isNotEmpty) {
       _btnEnable = true;
       notifyListeners();
     } else {
@@ -233,6 +245,8 @@ class ParcelActionDialogProvider extends ChangeNotifier {
       {required int parcelID, required String note, required String datetime}) {
     _isLoading = true;
     notifyListeners();
+    // print("datetime   >>>>>>>>>>>>>>>>>> ????????????");
+    // print(datetime);
     ParcelActionDialogMethod.parcelRescheduleMethod(
       parcelID: parcelID,
       note: note,
@@ -260,8 +274,13 @@ class ParcelActionDialogProvider extends ChangeNotifier {
     });
   }
 
-  void initDateTimeaction(String date) {
-    _dateTime = date;
+  void updateDate(String date) {
+    _date = date;
+    notifyListeners();
+  }
+
+  void updateTime(String time) {
+    _time = time;
     notifyListeners();
   }
 

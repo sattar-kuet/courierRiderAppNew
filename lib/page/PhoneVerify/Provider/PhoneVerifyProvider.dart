@@ -36,26 +36,28 @@ class PhoneVerifyProvider extends ChangeNotifier {
 
     _isLoading = true;
     notifyListeners();
-
+    phone = "0$phone";
     // User exists or not action Method
-    UserExistsModel? code =
+    UserExistsModel? user =
         await PhoneVerifyMethod.userExistsCheckAction(phone: phone);
 
     // otp Send action Method
-    PhoneVerifyMethod.phoneSmsSendAction(phone, code!.newPassword.toString())
-        .then((bool value) {
-      if (value) {
-        GFToast.showToast(
-          'Otp Sent Success',
-          context,
-          toastPosition: GFToastPosition.BOTTOM,
-        );
-        Navigator.of(context)
-            .pushNamed('/otp', arguments: {'phone': phone, 'data': code});
-      }
-      _isLoading = false;
-      notifyListeners();
-    });
+    if (user != null) {
+      String? otp = user.newPassword;
+      PhoneVerifyMethod.phoneSmsSendAction(phone, otp).then((bool value) {
+        if (value) {
+          GFToast.showToast(
+            'Otp Sent Success',
+            context,
+            toastPosition: GFToastPosition.BOTTOM,
+          );
+          Navigator.of(context)
+              .pushNamed('/otp', arguments: {'phone': phone, 'data': user});
+        }
+        _isLoading = false;
+        notifyListeners();
+      });
+    }
   }
 
   @override

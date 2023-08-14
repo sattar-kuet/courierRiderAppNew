@@ -55,7 +55,7 @@ class HomeView extends StatelessWidget {
                     .parcelListAction();
               },
               child:
-                  CustomScrollView(physics: BouncingScrollPhysics(), slivers: [
+                  CustomScrollView(physics: const BouncingScrollPhysics(), slivers: [
                 SliverPersistentHeader(
                   delegate: SliverHeader(),
                   pinned: true,

@@ -65,7 +65,7 @@ class ParcelDetailsModel {
 class Parcel {
   int? id;
   String? tracking;
-  String? type;
+  dynamic type;
   dynamic weight;
   String? merchantReference;
   bool? hasExchange;

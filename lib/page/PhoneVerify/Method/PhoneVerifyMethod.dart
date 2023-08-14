@@ -10,24 +10,26 @@ class PhoneVerifyMethod {
   static Future<UserExistsModel?> userExistsCheckAction(
       {required String phone}) async {
     try {
-      http.Response response = await ApiRoot.apiRequest({'phone': "880$phone"},
-          url: 'user/is_exist');
+      dynamic payload = {'phone': phone};
+      print(payload);
+      http.Response response =
+          await ApiRoot.apiRequest(payload, url: 'user/is_exist');
+      print("json.decode(response.body) ???????????????????????? >>>>>");
+      print(json.decode(response.body));
       if (response.statusCode == 200) {
         return UserExistsModel.fromJson(json.decode(response.body)['result']);
       }
-      print(json.decode(response.body));
-      
     } catch (e) {
       debugPrint(e.toString());
     }
     return null;
   }
 
-  static Future<bool> phoneSmsSendAction(String phone, String code) async {
+  static Future<bool> phoneSmsSendAction(String phone, String? otp) async {
     try {
       http.Response response = await ApiRoot.apiRequest(
-          {'phone': "880$phone", 'message': otpMessage + code},
-          url: 'sendotp');
+          {'phone': phone, 'message': 'This is your OTP:  $otp'},
+          url: 'password/sendotp');
       if (response.statusCode == 200) {
         debugPrint("-----------OTP Send success--------");
         return true;

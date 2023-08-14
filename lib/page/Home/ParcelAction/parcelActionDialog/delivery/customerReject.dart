@@ -21,7 +21,7 @@ class CustomerRejectDialog extends StatelessWidget {
           builder: (context, stateAction, __) {
         return Scaffold(
             appBar: AppBar(
-              title: const Text("Customer Parcel Reject"),
+              title: const Text("Customer rejects parcel"),
               backgroundColor: Colors.red,
             ),
             body: SafeArea(

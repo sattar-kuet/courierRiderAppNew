@@ -21,7 +21,7 @@ class MerchantRejectDialog extends StatelessWidget {
           builder: (context, stateAction, __) {
         return Scaffold(
             appBar: AppBar(
-              title: const Text("Merchant Parcel Reject"),
+              title: const Text("Merchant rejects parcel"),
               backgroundColor: Colors.red,
             ),
             body: SafeArea(

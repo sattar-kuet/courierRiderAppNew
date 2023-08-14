@@ -14,6 +14,8 @@ class ParcelDetailsMethod {
         url: 'parcel/detail/$id',
       );
 
+      print(response.body);
+
       if (response.statusCode == 200) {
         debugPrint("------------ Parcel Details get Success -------------");
         return ParcelDetailsModel.fromJson(
