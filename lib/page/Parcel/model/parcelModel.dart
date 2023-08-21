@@ -3,6 +3,7 @@ class ParcelListModel {
   String? tracking;
   String? createdAt;
   dynamic cashCollection;
+  dynamic hasExchange;
   Customer? customer;
   Merchant? merchant;
   Status? status;
@@ -19,6 +20,7 @@ class ParcelListModel {
     id = json['id'];
     tracking = json['tracking'];
     cashCollection = json['cash_collection'];
+    hasExchange = json['has_exchange'];
     createdAt = json['created_at'];
     customer = json['customer'] != null
         ? new Customer.fromJson(json['customer'])

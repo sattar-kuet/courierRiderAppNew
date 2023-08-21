@@ -111,15 +111,20 @@ class ParcelActionDialogMethod {
     }
   }
 
-  static Future<bool> parcelDeliveryMethod(
-      {required int parcelID,
-      required String type,
-      required int cashcollection}) async {
+  static Future<bool> parcelDeliveryMethod({
+    required int parcelID,
+    required String type,
+    required int cashcollection,
+    required String partialNote,
+    required String exchangeNote,
+  }) async {
     http.Response response = await ApiRoot.apiRequest({
       "uid": LocalDB.getUID,
       "parcel_id": parcelID,
       "cash_collection": cashcollection,
-      "delivery_type": type
+      "delivery_type": type,
+      "partial_note": partialNote,
+      "exchange_note": exchangeNote,
     }, url: 'rider/parcel/set_as_delivered');
 
     if (response.statusCode == 200) {

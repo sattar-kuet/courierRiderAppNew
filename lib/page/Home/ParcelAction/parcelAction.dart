@@ -143,6 +143,7 @@ class ParcelAction extends StatelessWidget {
                         .toString(),
                     parcelId: stateAction.parcelList[index].id!.toInt(),
                     taka: stateAction.parcelList[index].cashCollection!.toInt(),
+                    hasExchange: stateAction.parcelList[index].hasExchange,
                   ),
                 ),
               );

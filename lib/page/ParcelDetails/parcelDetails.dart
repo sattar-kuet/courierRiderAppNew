@@ -198,6 +198,8 @@ class ParcelDetailsView extends StatelessWidget {
                                       taka: actionValue
                                           .parcelDetails.parcel!.cashCollection!
                                           .toInt(),
+                                      hasExchange: actionValue
+                                          .parcelDetails.parcel!.hasExchange!,
                                     ),
                                   ),
                                 );

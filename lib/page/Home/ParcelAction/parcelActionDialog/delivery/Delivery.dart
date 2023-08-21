@@ -14,21 +14,23 @@ class DeliveryDialog extends StatelessWidget {
     required this.phone,
     required this.parcelId,
     required this.taka,
+    required this.hasExchange,
   });
   final String phone;
   final int parcelId;
   final int taka;
+  final bool hasExchange;
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) =>
-          ParcelActionDialogProvider()..initialization(taka.toString()),
+      create: (context) => ParcelActionDialogProvider()
+        ..initialization(taka.toString(), hasExchange),
       child: Consumer<ParcelActionDialogProvider>(
           builder: (context, stateAction, __) {
         return Scaffold(
             appBar: AppBar(
-              title: const Text("Parcel Delivered"),
+              title: const Text("Parcel Delivery"),
               backgroundColor: Colors.green,
             ),
             body: SafeArea(
@@ -53,9 +55,9 @@ class DeliveryDialog extends StatelessWidget {
                                     listen: false,
                                   )
                                         ..redioOnChange(value)
+                                        ..buttonEnable(hasExchange)
                                         ..cashCollectionFullAction(
-                                            taka.toString())
-                                        ..deliveryOnChangeAction(),
+                                            taka.toString()),
                                   inactiveIcon: null,
                                   activeBorderColor: GFColors.SUCCESS,
                                   radioColor: GFColors.SUCCESS,
@@ -85,9 +87,9 @@ class DeliveryDialog extends StatelessWidget {
                                     listen: false,
                                   )
                                         ..redioOnChange(value)
+                                        ..buttonEnable(hasExchange)
                                         ..cashCollectionClearAction(
-                                            taka.toString())
-                                        ..deliveryOnChangeAction(),
+                                            taka.toString()),
                                   inactiveIcon: null,
                                   activeBorderColor: GFColors.SUCCESS,
                                   radioColor: GFColors.SUCCESS,
@@ -111,16 +113,45 @@ class DeliveryDialog extends StatelessWidget {
                               controller: stateAction.cashCollectionController,
                               hintText: 'Cash Collection',
                               onChanage: (String value) {
-                                Provider.of<ParcelActionDialogProvider>(
-                                  context,
-                                  listen: false,
-                                ).deliveryOnChangeAction();
+                                stateAction.buttonEnable(hasExchange);
                               },
                               enable: true,
                               // enable: stateAction.radiogroupValue == 0
                               //     ? false
                               //     : true,
                             ),
+                            SizedBox(
+                              height: 30.sp,
+                            ),
+                            if (stateAction.radiogroupValue != 0)
+                              InputBox(
+                                controller: stateAction.partialNoteController,
+                                hintText: 'Partial Note',
+                                maxLength: 100,
+                                onChanage: (String value) {
+                                  stateAction.buttonEnable(hasExchange);
+                                },
+                                enable: true,
+                                // enable: stateAction.radiogroupValue == 0
+                                //     ? false
+                                //     : true,
+                              ),
+                            SizedBox(
+                              height: 30.sp,
+                            ),
+                            if (hasExchange)
+                              InputBox(
+                                controller: stateAction.exchangeNoteController,
+                                maxLength: 100,
+                                hintText: 'Exchange Note',
+                                onChanage: (String value) {
+                                  stateAction.buttonEnable(hasExchange);
+                                },
+                                enable: true,
+                                // enable: stateAction.radiogroupValue == 0
+                                //     ? false
+                                //     : true,
+                              ),
                             SizedBox(
                               height: 30.sp,
                             ),
@@ -141,8 +172,8 @@ class DeliveryDialog extends StatelessWidget {
                                             context,
                                             type:
                                                 stateAction.radiogroupValue == 0
-                                                    ? 'partial'
-                                                    : 'full',
+                                                    ? 'full'
+                                                    : 'partial',
                                             parcelID: parcelId,
                                             cashcollection: int.parse(
                                               stateAction
@@ -150,6 +181,14 @@ class DeliveryDialog extends StatelessWidget {
                                                   .value
                                                   .text,
                                             ),
+                                            partialNote: stateAction
+                                                .partialNoteController
+                                                .value
+                                                .text,
+                                            exchangeNote: stateAction
+                                                .exchangeNoteController
+                                                .value
+                                                .text,
                                           ),
                                 child: Text(
                                   "Delivery Done",

@@ -7,6 +7,9 @@ class ParcelActionDialogProvider extends ChangeNotifier {
   int get radiogroupValue => _rediogroupValue;
 
   TextEditingController noteController = TextEditingController();
+  TextEditingController exchangeNoteController = TextEditingController();
+  TextEditingController partialNoteController = TextEditingController();
+
   TextEditingController cashCollectionController = TextEditingController();
 
   String _date = "";
@@ -28,10 +31,23 @@ class ParcelActionDialogProvider extends ChangeNotifier {
   String _otp = "";
   String get otp => _otp;
 
-  void initialization(String taka) {
+  void initialization(String taka, bool hasExchange) {
     cashCollectionController = TextEditingController(text: taka);
+    buttonEnable(hasExchange);
     notifyListeners();
-    _btnEnable = true;
+  }
+
+  void buttonEnable(bool hasExchange) {
+    if (hasExchange && exchangeNoteController.text.isEmpty) {
+      _btnEnable = false;
+    } else if (radiogroupValue != 0 && partialNoteController.text.isEmpty) {
+      _btnEnable = false;
+    } else if (cashCollectionController.text.isEmpty) {
+      _btnEnable = false;
+    } else {
+      _btnEnable = true;
+    }
+    notifyListeners();
   }
 
   void redioOnChange(int value) {
@@ -93,15 +109,7 @@ class ParcelActionDialogProvider extends ChangeNotifier {
     }
   }
 
-  void deliveryOnChangeAction() {
-    if (cashCollectionController.text.isNotEmpty) {
-      _btnEnable = true;
-      notifyListeners();
-    } else {
-      _btnEnable = false;
-      notifyListeners();
-    }
-  }
+  
 
   void dateTimeOnChangeAction() {
     if (noteController.value.text.isNotEmpty &&
@@ -287,17 +295,21 @@ class ParcelActionDialogProvider extends ChangeNotifier {
   void parcelDeliveryAction(BuildContext context,
       {required int parcelID,
       required String type,
-      required int cashcollection}) {
+      required int cashcollection,
+      required String partialNote,
+      required String exchangeNote}) {
     _isLoading = true;
     notifyListeners();
     ParcelActionDialogMethod.parcelDeliveryMethod(
-      parcelID: parcelID,
-      type: type,
-      cashcollection: cashcollection,
-    ).then((value) {
+            parcelID: parcelID,
+            type: type,
+            cashcollection: cashcollection,
+            partialNote: partialNote,
+            exchangeNote: exchangeNote,)
+        .then((value) {
       if (value == true) {
         GFToast.showToast(
-          'Schedule Parcel Success',
+          'Parcel delivered successfully',
           context,
           backgroundColor: Colors.green,
           toastPosition: GFToastPosition.BOTTOM,
@@ -306,7 +318,7 @@ class ParcelActionDialogProvider extends ChangeNotifier {
         Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
       } else {
         GFToast.showToast(
-          'Schedule Parcel Failure',
+          'Parcel delivery Failure',
           context,
           backgroundColor: Colors.red,
           toastPosition: GFToastPosition.BOTTOM,
