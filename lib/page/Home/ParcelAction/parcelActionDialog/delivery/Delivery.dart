@@ -128,6 +128,7 @@ class DeliveryDialog extends StatelessWidget {
                                 controller: stateAction.partialNoteController,
                                 hintText: 'Partial Note',
                                 maxLength: 100,
+                                inputType: TextInputType.text,
                                 onChanage: (String value) {
                                   stateAction.buttonEnable(hasExchange);
                                 },
@@ -143,6 +144,8 @@ class DeliveryDialog extends StatelessWidget {
                               InputBox(
                                 controller: stateAction.exchangeNoteController,
                                 maxLength: 100,
+                                inputType: TextInputType.text,
+
                                 hintText: 'Exchange Note',
                                 onChanage: (String value) {
                                   stateAction.buttonEnable(hasExchange);
